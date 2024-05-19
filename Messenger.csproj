@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Icons\**" />
+    <EmbeddedResource Remove="Icons\**" />
+    <None Remove="Icons\**" />
+    <Page Remove="Icons\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icons\addchannel.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icons\delete.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="SharpVectors.Wpf" Version="1.8.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <Resource Include="Icons\add-user.png" />
+	  <Resource Include="Icons\telephone.png" />
+	  <Resource Include="Icons\sender.png" />
+	  <Resource Include="Icons\camera.png" />
+	  <Resource Include="Icons\plus.png" />
+  </ItemGroup>
+
+</Project>

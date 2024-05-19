@@ -1,0 +1,271 @@
+﻿<Window x:Class="Messenger.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Messenger" xmlns:viewmodel="clr-namespace:Messenger.MVVM.ViewModel"
+        mc:Ignorable="d"
+        Height="650" Width="1200"
+        Background="#36393f"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip">
+
+    <Window.DataContext>
+        <viewmodel:MainViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <Image x:Key="AddUser" Source="./Icons/add-user.png" Width="30"/>
+        <Image x:Key="Sender" Source="./Icons/sender.png" Width="20"/>
+        <Image x:Key="Plus" Source="./Icons/plus.png" Width="20"/>
+        <Image x:Key="AddChannel" Source="./Icons/addchannel.png" Width="30"/>
+        <Image x:Key="UploadFile" Source="./Icons/plus.png" Width="20"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.ColumnSpan="2"
+                Background="#252525"
+                MouseDown="Border_MouseDown">
+
+            <Grid HorizontalAlignment="Stretch">
+                <Label Content="TeamMess"
+                       Foreground="Gray"
+                       FontWeight="SemiBold"/>
+
+                <StackPanel HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+
+                    <Button Width="20" Height="20"
+                            Content="–"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="Gray"
+                            FontWeight="Bold"
+                            Margin="0"
+                            Click="ButtonMinimize_Click"/>
+
+                    <Button Width="20" Height="20"
+                            Content="◻"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="Gray"
+                            FontWeight="Bold"
+                            Click="WindowStateButton_Click"/>
+
+                    <Button Width="20" Height="20"
+                            Content="✕"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="Gray"
+                            FontWeight="Bold"
+                            Click="CloseButton_Click"/>
+                </StackPanel>
+            </Grid>
+
+        </Border>
+
+        <Grid Background="#2f3136"
+      Grid.Row="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" 
+                        Background="#292b2f">
+                <Grid RenderTransformOrigin="0.5,0.5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="ContactsButton" 
+                            Grid.Column="0" 
+                            Background="Transparent" 
+                            Foreground="White"
+                            Height="50"
+                            Click="ShowContacts_Click" 
+                            Content="Contacts" 
+                            BorderThickness="0,0,0,0" 
+                            FontWeight="Bold" 
+                            FontSize="16"/>
+                    <Button x:Name="ChannelsButton" 
+                            Grid.Column="1" 
+                            Background="Transparent"
+                            Foreground="Gray"
+                            Height="50"
+                            Click="ShowChannels_Click" 
+                            Content="Channels" 
+                            BorderThickness="0,0,0,0" 
+                            FontWeight="Bold" 
+                            FontSize="16"/>
+                </Grid>
+            </StackPanel>
+
+            <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Background="Transparent"
+                     Foreground="White"
+                     Margin="10,10,10,10"
+                     Style="{StaticResource TextBox}" 
+                     VerticalAlignment="Top"
+                     Grid.Row="1"
+                     Visibility="{Binding IsSearchVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                
+                <TextBox.InputBindings>
+                    <KeyBinding Command="{Binding SearchChannel}" Key="Return"/>
+                </TextBox.InputBindings>
+            </TextBox>
+
+            <ListView ItemsSource="{Binding Contacts}"
+                      SelectedItem="{Binding SelectedContact}"
+                      SelectionChanged="Contacts_SelectionChanged"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      Grid.Row="2"
+                      ItemContainerStyle="{StaticResource ContactCard}"
+                      Visibility="{Binding ShowContacts, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+            <ListView ItemsSource="{Binding Channels}"
+                      SelectedItem="{Binding SelectedChannel}"
+                      SelectionChanged="Channels_SelectionChanged"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      Grid.Row="2"
+                      ItemContainerStyle="{StaticResource ChannelCard}"
+                      Visibility="{Binding ShowChannels, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+            <StackPanel Grid.Row="3"
+                        Orientation="Vertical"
+                        Background="#292b2f">
+                <StackPanel Grid.Row="3"
+                            Orientation="Horizontal"
+                            Background="#292b2f">   
+
+                    <Border CornerRadius="25"
+                            Width="30" Height="30"
+                            Background="#3bff6f"
+                            Margin="18,10,0,0"/>
+
+                    <StackPanel VerticalAlignment="Center">
+                        <Label Content="{Binding MyName}"
+                               Foreground="White"
+                               FontWeight="SemiBold"
+                               Margin="0,-5,0,-5"/>
+                        <Label Content="{Binding MyEmail}"
+                               Foreground="Gray"
+                               FontWeight="Medium"
+                               FontSize="10"
+                               Margin="0,-8,0,-5"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="AddUserButton"
+                            Width="30" Height="30"
+                            BorderThickness="0"
+                            Margin="18,5,10,5"
+                            Background="Transparent"
+                            Click="AddUserButton_Click"
+                            Content="{StaticResource AddUser}"
+                            Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                    <Button x:Name="AddChannelButton"
+                            Width="30" Height="30"
+                            BorderThickness="0"
+                            Margin="0,5,0,5"
+                            Background="Transparent"
+                            Click="AddChannelButton_Click"
+                            Content="{StaticResource AddChannel}"
+                            Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="1"
+              Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="91*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="70"/>
+            </Grid.RowDefinitions>
+
+            <Border BorderBrush="#2f3136"
+                    BorderThickness="0,0,0,2" Grid.ColumnSpan="3">
+
+                <Grid HorizontalAlignment="Stretch"
+                      Margin="8">
+
+                    <Label Content="@Username"
+                           Foreground="White"
+                           FontWeight="Bold"
+                           Margin="5,0,5,0"
+                           VerticalAlignment="Center"/>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+                    </StackPanel>
+
+                </Grid>
+
+            </Border>
+
+            <ListView x:Name="MessagesList" ItemsSource="{Binding Messages}"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      ItemContainerStyle="{StaticResource ChatItem}"
+                      Margin="8,0,0,0"
+                      Grid.Row="1" Grid.ColumnSpan="3"/>
+
+            <Grid Grid.Row="2" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="90"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Row="1"
+                         Height="50"
+                         Text="Message @Username"
+                         Style="{StaticResource MessageBox}"
+                         Grid.ColumnSpan="2"/>
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Grid.Column="1"
+                            Margin="0,0,16,0">
+
+                    <Button x:Name="UploadFileButton"
+                            Width="30" Height="30"
+                            BorderThickness="0"
+                            Margin="10,5,3,5"
+                            Background="Transparent"
+                            Click="UploadFileButton_Click"
+                            Content="{StaticResource UploadFile}"/>
+                    <Label x:Name="FileName"
+                           Foreground="White"
+                           Margin="5,0,5,0"
+                           VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

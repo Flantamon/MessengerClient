@@ -1,0 +1,22 @@
+﻿<Application x:Class="Messenger.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Messenger" 
+             xmlns:localHelper="clr-namespace:Messenger.HelperClasses"
+             StartupUri="./MVVM/View/AuthorizationWindow.xaml">
+    
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Themes/ContactCard.xaml"/>
+                <ResourceDictionary Source="./Themes/ChatItem.xaml"/>
+                <ResourceDictionary Source="./Themes/MessageBox.xaml"/>
+                <ResourceDictionary Source="./Themes/StylishScrollbar.xaml"/>
+                <ResourceDictionary Source="./Themes/ChannelCard.xaml"/>
+                <ResourceDictionary Source="./Themes/ButtonsStyles.xaml"/>
+                <ResourceDictionary Source="./Themes/SearchStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <localHelper:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
